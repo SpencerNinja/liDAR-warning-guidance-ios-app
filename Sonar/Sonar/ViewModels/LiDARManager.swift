@@ -20,12 +20,17 @@ class LiDARManager: NSObject, ARSessionDelegate {
 
     func startSession(with configuration: ARWorldTrackingConfiguration) {
         guard ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) else {
-            print("Scene depth not supported on this device.")
+            print(",- Scene depth not supported on this device.")
             return
         }
         configuration.frameSemantics = .sceneDepth
         arSession.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        print("LiDAR session started.")
+        print(",- LiDAR session started.")
+    }
+    
+    func stopSession() {
+        arSession.pause()
+        print(",- LiDAR session stopped.")
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {

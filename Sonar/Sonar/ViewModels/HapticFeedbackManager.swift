@@ -16,9 +16,9 @@ class HapticFeedbackManager {
         do {
             hapticEngine = try CHHapticEngine()
             try hapticEngine?.start()
-            print("Haptic engine started.")
+            print(",- Haptic engine started.")
         } catch {
-            print("Failed to start haptic engine: \(error)")
+            print(",- Failed to start haptic engine: \(error)")
         }
     }
 
@@ -44,7 +44,7 @@ class HapticFeedbackManager {
                 self.isHapticActive = false // Reset the flag after the burst
             }
         } catch {
-            print("Failed to play haptic feedback: \(error)")
+            print(",- Failed to play haptic feedback: \(error)")
         }
     }
 

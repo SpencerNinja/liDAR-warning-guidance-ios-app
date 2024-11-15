@@ -22,15 +22,16 @@ class ProximitySensorManager {
     }
     @objc private func handleProximityChange() {
         if UIDevice.current.proximityState {
-            print("Object detected nearby")
+            print(",- Object detected nearby")
             // Trigger feedback
         } else {
-            print("No object detected")
+            print(",- No object detected")
         }
     }
     func disableProximitySensor() {
         // Disable proximity monitoring when not needed
         UIDevice.current.isProximityMonitoringEnabled = false
         NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
+        print(",- Proximity sensor disabled")
     }
 }

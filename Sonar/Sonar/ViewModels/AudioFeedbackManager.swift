@@ -38,7 +38,7 @@ class AudioFeedbackManager {
         }
 
         guard let audioEngine = audioEngine, let oscillatorNode = oscillatorNode else {
-            print("Failed to initialize audio components.")
+            print(",- Failed to initialize audio components.")
             return
         }
 
@@ -48,9 +48,9 @@ class AudioFeedbackManager {
 
         do {
             try audioEngine.start()
-            print("Tone started at frequency: \(frequency) Hz with volume: \(volume)")
+            print(",- Tone started at frequency: \(frequency) Hz with volume: \(volume)")
         } catch {
-            print("Failed to start audio engine: \(error)")
+            print(",- Failed to start audio engine: \(error)")
         }
     }
 
