@@ -47,12 +47,6 @@ struct ProximityFeedbackView: View {
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             .offset(x: -39)
         }
-//        .onAppear {
-//            if proximityViewModel.isShowingAndTellingFirstInstructions == true {
-//                proximityViewModel.messageToSpeak = proximityViewModel.showAndTellInstructionMessage
-//                proximityViewModel.speakMessage()
-//            }
-//        }
     }
 }
 
@@ -64,6 +58,7 @@ extension ProximityFeedbackView {
             Image("bg2")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .ignoresSafeArea()
             
             Rectangle()
                 .fill(Color.black.opacity(0.7))
@@ -90,10 +85,12 @@ extension ProximityFeedbackView {
     
     func settingsPageTurnerButton(geo: GeometryProxy) -> some View {
         Button(action: {
-            if proximityViewModel.currentSettingsPage < 4 {
-                proximityViewModel.currentSettingsPage += 1
-            } else {
-                proximityViewModel.currentSettingsPage = 0
+            withAnimation {
+                if proximityViewModel.currentSettingsPage < 4 {
+                    proximityViewModel.currentSettingsPage += 1
+                } else {
+                    proximityViewModel.currentSettingsPage = 0
+                }
             }
             print("Settings button tapped.")
         }) {
@@ -247,7 +244,7 @@ extension ProximityFeedbackView {
             Button(action: {
                 if proximityViewModel.warningDistance < 20 {
                     proximityViewModel.warningDistance += 1
-                    proximityViewModel.messageToSpeak = "The warning distance increased to \(proximityViewModel.warningDistance) feet."
+                    proximityViewModel.messageToSpeak = "The warning distance increased to \(Int(proximityViewModel.warningDistance)) feet."
                 }
                 if proximityViewModel.warningDistance == 20 {
                     proximityViewModel.messageToSpeak = "20 feet is the highest warning distance."
@@ -281,7 +278,7 @@ extension ProximityFeedbackView {
     func startSonarButton(geo: GeometryProxy) -> some View {
         Button(action: {
             proximityViewModel.sonarIsActive = true
-            proximityViewModel.startMonitoring()
+            proximityViewModel.startMonitoring() // TODO: This isn't working on the second click
             proximityViewModel.messageToSpeak = "Sonar activated."
             proximityViewModel.speakMessage()
         }) {

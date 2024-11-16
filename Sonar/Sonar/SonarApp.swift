@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 @main
 struct SonarApp: App {
@@ -13,17 +14,18 @@ struct SonarApp: App {
     @State private var isShowingLaunchScreen = true // Control the visibility of the launch screen
     
     var body: some Scene {
-//        WindowGroup {
-//            ProximityFeedbackView()
-//        }
         WindowGroup {
             if isShowingLaunchScreen {
                 LaunchScreenView()
                     .onAppear {
-                        // Simulate a delay or handle initialization tasks
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                            withAnimation {
-                                isShowingLaunchScreen = false
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            // Perform heavy initializations here
+                            initializeComponents()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                withAnimation {
+                                    isShowingLaunchScreen = false
+                                }
                             }
                         }
                     }
@@ -31,5 +33,14 @@ struct SonarApp: App {
                 ProximityFeedbackView()
             }
         }
+    }
+    
+    // Perform heavy initialization tasks in the background.
+    private func initializeComponents() {
+        // Preload speech synthesizer
+        let _ = AVSpeechSynthesizer()
+        
+        // TODO: Add any additional heavy initializations here, such as loading resources or setting up managers
+        print("Initialization tasks completed.")
     }
 }
