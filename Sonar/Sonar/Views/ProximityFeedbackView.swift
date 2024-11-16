@@ -278,7 +278,7 @@ extension ProximityFeedbackView {
     func startSonarButton(geo: GeometryProxy) -> some View {
         Button(action: {
             proximityViewModel.sonarIsActive = true
-            proximityViewModel.startMonitoring() // TODO: This isn't working on the second click
+            proximityViewModel.startMonitoring()
             proximityViewModel.messageToSpeak = "Sonar activated."
             proximityViewModel.speakMessage()
         }) {
@@ -336,7 +336,7 @@ extension ProximityFeedbackView {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(proximityViewModel.distance * 3.28084 < 2.0 ? Color.red.opacity(0.2) : Color.green.opacity(0.2))
+            .background(proximityViewModel.distance * 3.28084 < proximityViewModel.warningDistance ? Color.red.opacity(0.2) : Color.green.opacity(0.2))
             .cornerRadius(10)
         }
         .frame(width: geo.size.width, height: geo.size.height / 2)
