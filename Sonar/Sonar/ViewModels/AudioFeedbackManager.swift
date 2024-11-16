@@ -1,6 +1,6 @@
 //
 //  AudioFeedbackManager.swift
-//  Sonar
+//  Sonic BAT
 //
 //  Created by Spencer Hurd on 11/15/24.
 //

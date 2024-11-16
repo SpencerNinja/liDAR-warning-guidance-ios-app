@@ -1,6 +1,6 @@
 //
 //  Notes.swift
-//  Sonar
+//  Sonic BAT
 //
 //  Created by Spencer Hurd on 11/15/24.
 //
@@ -17,15 +17,15 @@
  - ✅ make stop button
  - ✅ switch between start and stop button
  - ✅ make a settings button for top half of screen
- - settings:
+ - ✅ settings:
      - ✅ turn haptics on/off
      - ✅ turn audio beeps on/off
-     - turn audible instructions off
+     - ✅ turn audible instructions off
  
-- add start message:
-    - visual
-    - audible
-    - "Welcome to Sonar. This app is designed to assist the visually impaired with safely navigating a world full of obstacles. Disclaimer: This tool is not meant to replace vision, but is a tool to use along with your other senses and devices to help you navigate."
+- ✅ add start message:
+    - ✅ visual
+    - ✅ audible
+    - ✅ "Welcome to Sonar. This app is designed to assist the visually impaired with safely navigating a world full of obstacles. Disclaimer: This tool is not meant to replace vision, but is a tool to use along with your other senses and devices to help you navigate."
  
  - logo & appIcon
 
