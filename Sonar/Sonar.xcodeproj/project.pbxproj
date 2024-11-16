@@ -255,7 +255,7 @@
 				DEVELOPMENT_TEAM = 4MZCV3A4A7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Sonar;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sonic BAT";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"This app uses the camera to detect objects in user's path\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -286,7 +286,7 @@
 				DEVELOPMENT_TEAM = 4MZCV3A4A7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Sonar;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sonic BAT";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"This app uses the camera to detect objects in user's path\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
