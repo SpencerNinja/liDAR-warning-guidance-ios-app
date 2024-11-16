@@ -25,12 +25,13 @@
 - ✅ add start message:
     - ✅ visual
     - ✅ audible
-    - ✅ "Welcome to Sonar. This app is designed to assist the visually impaired with safely navigating a world full of obstacles. Disclaimer: This tool is not meant to replace vision, but is a tool to use along with your other senses and devices to help you navigate."
  
- - logo & appIcon
+ - ✅ appIcon
+ - ✅ logo
 
-- design landing screen
-- bats, smokescreen layer effect
+ - ✅ design landing screen
+ - ✅ bats, smokescreen layer effect
+ - make sure there is only 1 speech triggering on each page
  
 - link app to Apple Watch
 - add haptics to Apple Watch

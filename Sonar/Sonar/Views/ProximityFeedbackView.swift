@@ -47,19 +47,19 @@ struct ProximityFeedbackView: View {
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             .offset(x: -39)
         }
-        .onAppear {
-            if proximityViewModel.isShowingAndTellingFirstInstructions == true {
-                proximityViewModel.messageToSpeak = proximityViewModel.showAndTellInstructionMessage
-                proximityViewModel.speakMessage()
-            }
-        }
+//        .onAppear {
+//            if proximityViewModel.isShowingAndTellingFirstInstructions == true {
+//                proximityViewModel.messageToSpeak = proximityViewModel.showAndTellInstructionMessage
+//                proximityViewModel.speakMessage()
+//            }
+//        }
     }
 }
 
 extension ProximityFeedbackView {
     
     var backgroundImage: some View {
-        ZStack(alignment: .topLeading) { // Ensure alignment is explicitly top-left
+        ZStack(alignment: .topLeading) {
             // Background image and overlay
             Image("bg2")
                 .resizable()
@@ -67,24 +67,25 @@ extension ProximityFeedbackView {
             
             Rectangle()
                 .fill(Color.black.opacity(0.7))
-                .ignoresSafeArea() // Ensures overlay fills the screen
+                .ignoresSafeArea()
             
             // Text logo in the top-left corner
             Text("Sonic BAT")
-//                .foregroundStyle(Color.yellow)
-                .font(.custom("HelveticaNeue-Bold", size: 18)) // or use any custom font you like
-                    .kerning(2) // Adds spacing between letters
-//                .font(.title2)
+                .font(.custom("MarkerFelt-Thin", size: 18))
+                .kerning(5)
                 .bold()
-//                .shadow(color: .black, radius: 5, x: 3, y: 3)
-                .shadow(color: .yellow, radius: 10, x: 0, y: 0) // Glowing shadow effect
+                .shadow(color: Color.blue, radius: 10, x: 0, y: 0) // Glowing shadow effect
                 .foregroundStyle(LinearGradient(
-                        gradient: Gradient(colors: [.yellow, .orange]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing))
-                .offset(x: 139, y: 30)
+                    gradient:
+                        Gradient(
+                            colors: [.white, .yellow]
+                        ),
+                    startPoint: .top,
+                    endPoint: .bottom)
+                )
+                .offset(x: 139, y: 40)
         }
-        .ignoresSafeArea() // Ensure the background fills the screen
+        .ignoresSafeArea()
     }
     
     func settingsPageTurnerButton(geo: GeometryProxy) -> some View {
@@ -103,7 +104,7 @@ extension ProximityFeedbackView {
                 Text("Beeps enabled: \(proximityViewModel.proximityBeepsAreEnabled ? "Yes" : "No")")
                 Text("Haptics enabled: \(proximityViewModel.proximityHapticsAreEnabled ? "Yes" : "No")")
                 Text("Voice instructions enabled: \(proximityViewModel.vocalInstructionsAreEnabled ? "Yes" : "No")")
-                Text("Warning distance: \(String(format: "%.0f", proximityViewModel.warningDistance)) feet")
+                Text("Warning distance: \(String(format: "%.0f", proximityViewModel.warningDistance)) \(proximityViewModel.warningDistance == 1 ? "foot" : "feet")")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
@@ -117,7 +118,7 @@ extension ProximityFeedbackView {
             Beeps: \(proximityViewModel.proximityBeepsAreEnabled ? "enabled" : "disabled").
             Haptics: \(proximityViewModel.proximityHapticsAreEnabled ? "enabled" : "disabled").
             Voice instructions: \(proximityViewModel.vocalInstructionsAreEnabled ? "enabled" : "disabled")
-            Warning distance currently set to: \(String(format: "%.0f", proximityViewModel.warningDistance)) feet.
+            Warning distance currently set to: \(String(format: "%.0f", proximityViewModel.warningDistance)) \(proximityViewModel.warningDistance == 1 ? "foot" : "feet").
             """
             proximityViewModel.speakMessage()
         }
@@ -132,7 +133,12 @@ extension ProximityFeedbackView {
             proximityViewModel.speakMessage()
             print("Beeps button tapped.")
         }) {
-            Text("Tap to \(proximityViewModel.proximityBeepsAreEnabled ? "DISABLE" : "ENABLE") proximity beeps")
+            (Text("Tap to ")
+                + Text(proximityViewModel.proximityBeepsAreEnabled ? "DISABLE" : "ENABLE")
+                    .bold()
+                    .underline()
+                    .italic()
+                + Text(" proximity beeps"))
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -153,12 +159,17 @@ extension ProximityFeedbackView {
         Button(action: {
             proximityViewModel.proximityHapticsAreEnabled.toggle()
             proximityViewModel.messageToSpeak = """
-            Haptics (vibrations) are now \(proximityViewModel.proximityHapticsAreEnabled ? "enabled" : "disabled"). Tap on lower half of screen to \(proximityViewModel.proximityHapticsAreEnabled ? "disable" : "enable")").
+            Haptics are now \(proximityViewModel.proximityHapticsAreEnabled ? "enabled" : "disabled"). Tap on lower half of screen to \(proximityViewModel.proximityHapticsAreEnabled ? "disable" : "enable")").
             """
             proximityViewModel.speakMessage()
             print("Haptics button tapped.")
         }) {
-            Text("Tap to \(proximityViewModel.proximityHapticsAreEnabled ? "DISABLE" : "ENABLE") proximity haptics (vibration)")
+            (Text("Tap to ")
+                + Text(proximityViewModel.proximityHapticsAreEnabled ? "DISABLE" : "ENABLE")
+                    .bold()
+                    .underline()
+                    .italic()
+                + Text(" proximity haptics"))
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -170,7 +181,7 @@ extension ProximityFeedbackView {
         .frame(width: geo.size.width, height: geo.size.height / 2)
         .onAppear {
             proximityViewModel.messageToSpeak = """
-            Haptics (vibrations) are currently \(proximityViewModel.proximityHapticsAreEnabled ? "enabled" : "disabled"). Tap on lower half of screen to \(proximityViewModel.proximityHapticsAreEnabled ? "disable" : "enable")").
+            Haptics are currently \(proximityViewModel.proximityHapticsAreEnabled ? "enabled" : "disabled"). Tap on lower half of screen to \(proximityViewModel.proximityHapticsAreEnabled ? "disable" : "enable")").
             """
             proximityViewModel.speakMessage()
         }
@@ -185,7 +196,12 @@ extension ProximityFeedbackView {
             proximityViewModel.speakMessage()
             print("Vocal instructions button tapped.")
         }) {
-            Text("Tap to \(proximityViewModel.vocalInstructionsAreEnabled ? "DISABLE" : "ENABLE") vocal instructions")
+            (Text("Tap to ")
+             + Text(proximityViewModel.vocalInstructionsAreEnabled ? "DISABLE" : "ENABLE")
+                    .bold()
+                    .underline()
+                    .italic()
+                + Text("\n vocal instructions"))
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -207,14 +223,19 @@ extension ProximityFeedbackView {
             Button(action: {
                 if proximityViewModel.warningDistance > 1 {
                     proximityViewModel.warningDistance -= 1
-                    proximityViewModel.messageToSpeak = "The warning distance decreased to \(proximityViewModel.warningDistance) \(proximityViewModel.warningDistance == 1 ? "foot" : "feet")."
+                    proximityViewModel.messageToSpeak = "The warning distance decreased to \(Int(proximityViewModel.warningDistance)) \(proximityViewModel.warningDistance == 1 ? "foot" : "feet")."
                 }
                 if proximityViewModel.warningDistance == 1 {
                     proximityViewModel.messageToSpeak = "1 foot is the lowest warning distance."
                 }
                 proximityViewModel.speakMessage()
             }) {
-                Text("Tap to REDUCE warning distance")
+                (Text("Tap to ")
+                    + Text("REDUCE")
+                        .bold()
+                        .underline()
+                        .italic()
+                    + Text("\n warning distance"))
                     .font(.title)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -233,7 +254,12 @@ extension ProximityFeedbackView {
                 }
                 proximityViewModel.speakMessage()
             }) {
-                Text("Tap to INCREASE warning distance")
+                (Text("Tap to ")
+                    + Text("INCREASE")
+                        .bold()
+                        .underline()
+                        .italic()
+                    + Text("\n warning distance"))
                     .font(.title)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -246,7 +272,7 @@ extension ProximityFeedbackView {
         .frame(width: geo.size.width, height: geo.size.height / 2)
         .onAppear {
             proximityViewModel.messageToSpeak = """
-            The warning distance is currently set to \(proximityViewModel.warningDistance). Tap on the lower-left half of the screen to decrease the distance and tap on the lower-right half of the screen to increase the distance.
+            The warning distance is currently set to \(Int(proximityViewModel.warningDistance)) \(proximityViewModel.warningDistance == 1 ? "foot" : "feet"). Tap on the lower-left half of the screen to decrease the distance and tap on the lower-right half of the screen to increase the distance.
             """
             proximityViewModel.speakMessage()
         }
@@ -256,11 +282,16 @@ extension ProximityFeedbackView {
         Button(action: {
             proximityViewModel.sonarIsActive = true
             proximityViewModel.startMonitoring()
-            proximityViewModel.messageToSpeak = "Sonar active."
+            proximityViewModel.messageToSpeak = "Sonar activated."
             proximityViewModel.speakMessage()
         }) {
             VStack {
-                Text("To START sonar, tap anywhere in the lower half of the screen")
+                (Text("To ")
+                    + Text("START")
+                        .bold()
+                        .underline()
+                        .italic()
+                    + Text(" sonar, \n tap anywhere in the lower half of the screen"))
                     .font(.title)
                     .multilineTextAlignment(.center)
             }
@@ -295,7 +326,12 @@ extension ProximityFeedbackView {
                 Spacer()
                 
                 // START/STOP Sonar Instructions
-                Text("To STOP sonar, tap anywhere in the lower half of the screen")
+                (Text("To ")
+                    + Text("STOP")
+                        .bold()
+                        .underline()
+                        .italic()
+                    + Text(" sonar, \n tap anywhere in the lower half of the screen"))
                     .font(.title)
                     .multilineTextAlignment(.center)
                 
@@ -323,6 +359,10 @@ extension ProximityFeedbackView {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(width: geo.size.width, height: geo.size.height)
+        .onAppear {
+            proximityViewModel.messageToSpeak = proximityViewModel.showAndTellInstructionMessage
+            proximityViewModel.speakMessage()
+        }
     }
     
 }

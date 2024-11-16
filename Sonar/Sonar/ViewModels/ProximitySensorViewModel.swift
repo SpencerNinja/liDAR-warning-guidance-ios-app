@@ -31,21 +31,21 @@ class ProximitySensorViewModel: ObservableObject {
     @Published var isShowingAndTellingFirstInstructions: Bool = true
     private let speechSynthesizer = AVSpeechSynthesizer()
     @Published var showAndTellInstructionMessage: String = """
-    Welcome to Sonic BAT! This app is designed to assist individuals with visual impairments in safely navigating their surroundings.
+    Welcome to Sonic Bat! This app is designed to assist individuals with visual impairments in safely navigating their surroundings.
 
     To get started:  
     Tap anywhere on the screen to dismiss this message.  
     Tap the **top half** of the screen to cycle through settings.  
-    Tap the **bottom half** of the screen to activate the Sonic BAT experience.
+    Tap the **bottom half** of the screen to activate the Sonic Bat experience.
 
     **Important Notes:**  
     Ensure that the LiDAR sensors and camera are not obstructed while holding your phone. Point your phone's camera at about a 45 degree angle towards the ground in front of you. 
     The app provides audible feedback: a series of beeps that get louder as you approach the default warning distance of 2 feet.  
     You can disable the beeps and adjust the warning distance in the settings.
     
-    **Disclaimer:** Sonic BAT is not a replacement for vision but a tool to complement your other senses and devices to aid navigation.
+    **Disclaimer:** Sonic Bat is not a replacement for vision but a tool to complement your other senses and devices to aid in navigation.
 
-    Enjoy exploring with Sonic BAT!
+    Enjoy exploring with Sonic Bat!
     """
     @Published var messageToSpeak: String = ""
     
@@ -120,6 +120,7 @@ class ProximitySensorViewModel: ObservableObject {
     }
     
     func speakMessage() {
+        stopSpeaking()
         if vocalInstructionsAreEnabled == true {
             let utterance = AVSpeechUtterance(string: messageToSpeak)
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
