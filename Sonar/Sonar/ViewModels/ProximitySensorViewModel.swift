@@ -61,7 +61,13 @@ class ProximitySensorViewModel: ObservableObject {
     func startMonitoring() {
         let configuration = ARWorldTrackingConfiguration()
         lidarManager.startSession(with: configuration)
-        print("startMonitoring(),- LiDAR monitoring started.")
+        lidarManager.onDistanceUpdate = { [weak self] distance in
+            DispatchQueue.main.async {
+                self?.distance = distance
+                self?.handleAudioHapticFeedback(for: distance)
+            }
+        }
+        print("startMonitoring() - LiDAR monitoring started.")
     }
     
     func stopMonitoring() {
@@ -83,7 +89,6 @@ class ProximitySensorViewModel: ObservableObject {
     }
 
     private func handleAudioHapticFeedback(for distance: Float) {
-        // Ensure sonar is active before handling feedback
         guard sonarIsActive else {
             audioManager.stopTone()
             hapticManager.stopHapticFeedback()
@@ -94,30 +99,27 @@ class ProximitySensorViewModel: ObservableObject {
 
         if distanceInFeet < warningDistance {
             if proximityBeepsAreEnabled {
-                // Audio feedback (closer = louder)
-                let normalizedVolume = max(0.1, min(1.0, 1.0 - (distanceInFeet / warningDistance))) // Volume: 0.1 to 1.0
-                audioManager.playTone(frequency: 440, volume: normalizedVolume) // A4 tone (440 Hz)
-                print("handleAudioHapticFeedback(),- Playing audio feedback for distance: \(distanceInFeet) feet.")
+                let normalizedVolume = max(0.1, min(1.0, 1.0 - (distanceInFeet / warningDistance)))
+                audioManager.playTone(frequency: 440, volume: normalizedVolume)
+                print("Audio feedback: Distance \(distanceInFeet) feet, Volume \(normalizedVolume).")
             }
 
             if proximityHapticsAreEnabled {
-                // Haptic feedback (closer = stronger vibration)
                 let intensity = Float(1.0 - (distanceInFeet / warningDistance))
                 hapticManager.playHapticFeedback(intensity: intensity)
-                print("handleAudioHapticFeedback(),- Playing haptic feedback for distance: \(distanceInFeet) feet.")
+                print("Haptic feedback: Distance \(distanceInFeet) feet, Intensity \(intensity).")
             }
-
         } else {
             if proximityBeepsAreEnabled {
                 audioManager.stopTone()
-                print("handleAudioHapticFeedback(),- Stopping audio feedback.")
             }
             if proximityHapticsAreEnabled {
                 hapticManager.stopHapticFeedback()
-                print("handleAudioHapticFeedback(),- Stopping haptic feedback.")
             }
+            print("Feedback stopped: No object within warning distance.")
         }
     }
+
     
     func speakMessage() {
         stopSpeaking()

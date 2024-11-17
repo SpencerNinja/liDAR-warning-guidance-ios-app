@@ -31,8 +31,12 @@
 
  - ✅ design landing screen
  - ✅ bats, smokescreen layer effect
- - make sure there is only 1 speech triggering on each page
+ - ✅make sure there is only 1 speech triggering on each page
  
+ BACKLOG
+ - trigger "warning length" setup on so that the user sets their default "warning length"
+ - trigger small beeps for any change in distance greater than 0.3 feet
+ - use different types of beeps to tell user if distance increases or decreased (this should catch scenarios where there is a drop in distance as well)
 - link app to Apple Watch
 - add haptics to Apple Watch
  
